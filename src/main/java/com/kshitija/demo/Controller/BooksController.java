@@ -9,30 +9,34 @@ import com.kshitija.demo.Service.BooksService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/demo")
+@RequestMapping("/books")
 public class BooksController {
     @Autowired
     private BooksService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Books CreateBook (@RequestBody Books books){
+    public Books createBook (@RequestBody Books books){
         return service.addBooks(books);
     }
     @GetMapping
-    public List<Books> GetBooks(){
+    public List<Books> getBooks(){
         return service.findALlBooks();
     }
-    @GetMapping("/book_id")
-    public List<Books> getBooks(@PathVariable String BookAuthor){
-        return service.getBookByAuthor(BookAuthor);
+    @GetMapping("/{book_id}")
+    public Books getBook(@PathVariable String book_id){
+        return service.findByBook_id(book_id);
+    }
+    @GetMapping("/{name}")
+    public Books getBooks(@PathVariable String Name){
+        return service.getBookByName(Name);
     }
     @PutMapping
-    public String UpdateBook(@RequestBody Books books){
+    public String updateBook(@RequestBody Books books){
         return service.updateBook(books);
     }
     @DeleteMapping("/{book_id}")
-    public String DeleteBook(@PathVariable String book_id){
+    public String deleteBook(@PathVariable String book_id){
         return service.deleteBook(book_id);
     }
 

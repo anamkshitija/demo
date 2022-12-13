@@ -3,6 +3,7 @@ package com.kshitija.demo.Service;
 import com.kshitija.demo.Model.Books;
 import com.kshitija.demo.Repository.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Service
 public class BooksService {
     @Autowired
-    public BooksRepository repository;
+    private BooksRepository repository;
 
     public Books addBooks(Books books){
         books.setBook_id(UUID.randomUUID().toString().split("-")[0]);
@@ -21,8 +22,11 @@ public class BooksService {
     public List<Books> findALlBooks(){
         return repository.findAll();
     }
-    public List<Books> getBookByAuthor (String Author){
-        return repository.findByName(Author);
+    public Books findByBook_id (String book_id){
+        return repository.findById(book_id).get();
+    }
+    public Books getBookByName (String Name){
+        return repository.findByName(Name);
     }
     public String updateBook (Books BookRequest){
         Books existingBooks = repository.findById(BookRequest.getBook_id()).get();
@@ -34,7 +38,7 @@ public class BooksService {
     }
     public String deleteBook(String book_id){
         repository.deleteById(book_id);
-        return book_id + "Book data deleted";
+        return book_id + " Book data deleted";
     }
 
 }
